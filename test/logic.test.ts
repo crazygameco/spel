@@ -19,7 +19,7 @@ describe("heist route rules", () => {
   });
 
   it("restarts deterministically from planning state", () => {
-    const route = [{ x: 0, y: 120 }, loot, exit];
+    const route = [{ x: 0, y: 120 }, { x: 80, y: 120 }, loot, exit];
     expect(evaluatePlan(route, [wall], loot, exit, 5)).toBe(true);
     expect(evaluatePlan(route, [wall], loot, exit, 5)).toBe(true);
   });
