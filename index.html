@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101724" />
+    <title>Heist in 30 Seconds</title>
+  </head>
+  <body>
+    <main id="app">
+      <section class="game-shell">
+        <header class="hud">
+          <div>
+            <p class="eyebrow">MICRO HEIST</p>
+            <h1>Heist in 30 Seconds</h1>
+          </div>
+          <div class="hud-actions">
+            <span id="timer" class="timer">30.0s</span>
+            <button id="sound-toggle" class="icon-button" type="button" aria-label="Turn sound off">🔊</button>
+          </div>
+        </header>
+        <div class="game-frame">
+          <div id="game" aria-label="Top-down heist game"></div>
+          <div class="help">Draw one connected route: <strong>START → LOOT → EXIT</strong>. Avoid the guard's red vision.</div>
+        </div>
+        <footer class="controls">
+          <p id="message">Draw a route from START to the loot, then to EXIT.</p>
+          <button id="run-button" type="button">Run the plan</button>
+          <button id="retry-button" class="secondary" type="button">Change plan</button>
+        </footer>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
