@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { evaluatePlan, getPatrolState, pointInRect, routeCrossesWall, segmentCrossesWall, validatePlan, type Point, type Rect } from "../src/game/logic";
+import { canUseStun, evaluatePlan, getPatrolState, pointInRect, routeCrossesWall, segmentCrossesWall, validatePlan, type Point, type Rect } from "../src/game/logic";
 
 const wall: Rect = { x: 40, y: 0, width: 20, height: 100 };
 const loot: Point = { x: 80, y: 50 };
@@ -51,5 +51,11 @@ describe("heist route rules", () => {
   it("blocks the player radius at solid wall edges", () => {
     expect(pointInRect({ x: 28, y: 50 }, wall, 11)).toBe(false);
     expect(pointInRect({ x: 28, y: 50 }, wall, 13)).toBe(true);
+  });
+
+  it("only allows a stun when charges and cooldown are ready", () => {
+    expect(canUseStun(1, 1000, 900)).toBe(true);
+    expect(canUseStun(1, 1000, 1100)).toBe(false);
+    expect(canUseStun(0, 1000, 0)).toBe(false);
   });
 });

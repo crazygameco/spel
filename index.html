@@ -11,18 +11,18 @@
       <section class="game-shell">
         <header class="hud">
           <div class="brand"><span class="brand-mark">✦</span><div><p class="eyebrow">NIGHT SHIFT // FIELD OPS</p><h1>Heist in 30 Seconds</h1></div></div>
-          <div class="hud-actions"><div class="stat"><span>MISSION</span><strong id="level-label">01 / 03</strong></div><div class="stat"><span>TIME</span><strong id="timer">30.0s</strong></div><button id="sound-toggle" class="icon-button" type="button" aria-label="Turn sound off">🔊</button></div>
+          <div class="hud-actions"><div class="stat"><span>MISSION</span><strong id="level-label">01 / 10</strong></div><div class="stat"><span>TIME</span><strong id="timer">40.0s</strong></div><div class="stat"><span>STUNS</span><strong id="stun-count">02</strong></div><button id="fullscreen-toggle" class="icon-button" type="button" aria-label="Toggle fullscreen">⛶</button><button id="sound-toggle" class="icon-button" type="button" aria-label="Turn sound off">🔊</button></div>
         </header>
-        <section class="briefing"><div><span class="kicker">YOUR BRIEF</span><p id="mission-title">The clean beginner's job.</p></div><div class="steps"><span class="step active">01 Plan</span><span class="step">02 Execute</span><span class="step">03 Escape</span></div></section>
+        <section class="briefing"><div><span class="kicker">YOUR BRIEF</span><p id="mission-title">The clean beginner's job.</p></div><div class="steps"><span class="step active">01 Move</span><span class="step">02 Steal</span><span class="step">03 Escape</span></div></section>
         <section class="intel-bar"><div class="guard-intel"><span class="guard-pip"></span><div><span class="kicker">GUARD ROUTE</span><strong id="guard-status">LEG 1/4 · 0%</strong></div></div><div class="legend"><span><i class="legend-line patrol-line"></i> patrol path</span><span><i class="legend-line vision-line"></i> vision cone</span><span><i class="legend-dot player-line"></i> crew</span></div><p id="stealth-state" class="timing-tip">HIDDEN — move through the shadows.</p></section>
         <div class="game-frame">
           <div id="game" aria-label="Top-down heist game"></div>
-          <div class="help"><span class="help-key">WASD / ARROWS</span> Move the crew <strong>SAFEHOUSE → BAG → EXIT</strong><span class="help-divider">·</span><span class="help-key">TIP</span> Break the red cone's sightline</div>
+          <div class="help"><span class="help-key">WASD / ARROWS</span> Move <span class="help-divider">·</span> <span class="help-key">SPACE</span> Stun guard <strong>SAFEHOUSE → BAG → EXIT</strong></div>
           <div id="toast" class="toast" aria-live="polite"></div>
         </div>
         <footer class="controls">
-          <div class="feedback"><span id="status-dot" class="status-dot"></span><p id="message">Trace a route from the safehouse through the bag to the exit.</p></div>
-          <div class="control-buttons"><button id="retry-button" class="secondary" type="button">Restart mission</button></div>
+          <div class="feedback"><span id="status-dot" class="status-dot"></span><p id="message">Move from the safehouse to the bag, then escape.</p></div>
+          <div class="control-buttons"><button id="stun-button" class="tool-button" type="button">⚡ Stun</button><button id="retry-button" class="secondary" type="button">Restart mission</button></div>
         </footer>
       </section>
       <div id="touch-pad" class="touch-pad" aria-label="Touch movement control"><span></span></div>

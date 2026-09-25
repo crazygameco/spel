@@ -54,6 +54,7 @@ button:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.
 #message { margin: 0; color: #c1cde0; font-size: 13px; }
 .control-buttons { display: flex; gap: 8px; }
 .controls .tool-button { padding: 10px 12px; color: #cbd5e5; border-color: var(--line); background: #151f30; font-size: 12px; }
+.controls .tool-button:disabled { color: #66748a; background: #101725; }
 .controls .secondary, .result-actions .secondary { color: #f5f7fb; background: #29364d; }
 .result-overlay { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 20px; background: #050812b8; backdrop-filter: blur(7px); }
 .result-card { width: min(100%, 390px); padding: 34px 28px 28px; border: 1px solid #475876; border-radius: 18px; background: linear-gradient(145deg, #18243a, #0e1523); box-shadow: 0 24px 90px #000b; text-align: center; }

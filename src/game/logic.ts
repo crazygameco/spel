@@ -7,6 +7,10 @@ export type PatrolState = {
   position: Point;
   heading: number;
 };
+
+export function canUseStun(charges: number, nowMs: number, cooldownUntilMs: number): boolean {
+  return charges > 0 && nowMs >= cooldownUntilMs;
+}
 export type PlanCheck = {
   valid: boolean;
   crossesWall: boolean;
