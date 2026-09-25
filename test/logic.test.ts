@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { evaluatePlan, routeCrossesWall, type Point, type Rect } from "../src/game/logic";
+import { evaluatePlan, routeCrossesWall, validatePlan, type Point, type Rect } from "../src/game/logic";
 
 const wall: Rect = { x: 40, y: 0, width: 20, height: 100 };
 const loot: Point = { x: 80, y: 50 };
@@ -22,5 +22,16 @@ describe("heist route rules", () => {
     const route = [{ x: 0, y: 120 }, { x: 80, y: 120 }, loot, exit];
     expect(evaluatePlan(route, [wall], loot, exit, 5)).toBe(true);
     expect(evaluatePlan(route, [wall], loot, exit, 5)).toBe(true);
+  });
+
+  it("returns actionable reasons for an unfinished plan", () => {
+    const check = validatePlan([{ x: 0, y: 120 }], [wall], loot, exit, 5);
+    expect(check.valid).toBe(false);
+    expect(check.reason).toContain("Start drawing");
+  });
+
+  it("accepts a valid plan with explicit collection and exit checkpoints", () => {
+    const check = validatePlan([{ x: 0, y: 120 }, { x: 80, y: 120 }, loot, exit], [wall], loot, exit, 5);
+    expect(check).toMatchObject({ valid: true, crossesWall: false, collectsLoot: true, reachesExit: true });
   });
 });

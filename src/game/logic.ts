@@ -1,6 +1,13 @@
 export type Point = { x: number; y: number };
 export type Rect = { x: number; y: number; width: number; height: number };
 export type Outcome = "playing" | "won" | "lost";
+export type PlanCheck = {
+  valid: boolean;
+  crossesWall: boolean;
+  collectsLoot: boolean;
+  reachesExit: boolean;
+  reason: string;
+};
 
 const EPSILON = 0.0001;
 
@@ -22,10 +29,24 @@ export function routeVisitsPoint(route: Point[], target: Point, radius: number):
 }
 
 export function evaluatePlan(route: Point[], walls: Rect[], loot: Point, exit: Point, proximity: number): boolean {
-  return route.length > 1 &&
-    !routeCrossesWall(route, walls) &&
-    routeVisitsPoint(route, loot, proximity) &&
-    routeVisitsPoint(route, exit, proximity);
+  return validatePlan(route, walls, loot, exit, proximity).valid;
+}
+
+export function validatePlan(route: Point[], walls: Rect[], loot: Point, exit: Point, proximity: number): PlanCheck {
+  const crossesWall = route.length > 1 && routeCrossesWall(route, walls);
+  const collectsLoot = routeVisitsPoint(route, loot, proximity);
+  const reachesExit = routeVisitsPoint(route, exit, proximity);
+  const valid = route.length > 1 && !crossesWall && collectsLoot && reachesExit;
+  const reason = route.length < 2
+    ? "Start drawing from the green safehouse."
+    : crossesWall
+      ? "That line clips a wall. Try a different angle."
+      : !collectsLoot
+        ? "The bag is still inside. Pass through the gold marker."
+        : !reachesExit
+          ? "You need to finish at the blue exit."
+          : "Plan ready. Make it count.";
+  return { valid, crossesWall, collectsLoot, reachesExit, reason };
 }
 
 function segmentIntersectsRect(from: Point, to: Point, rect: Rect): boolean {
@@ -62,4 +83,3 @@ function onSegment(a: Point, b: Point, p: Point): boolean {
   return p.x >= Math.min(a.x, b.x) - EPSILON && p.x <= Math.max(a.x, b.x) + EPSILON &&
     p.y >= Math.min(a.y, b.y) - EPSILON && p.y <= Math.max(a.y, b.y) + EPSILON;
 }
-
