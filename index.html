@@ -14,16 +14,18 @@
           <div class="hud-actions"><div class="stat"><span>MISSION</span><strong id="level-label">01 / 03</strong></div><div class="stat"><span>TIME</span><strong id="timer">30.0s</strong></div><button id="sound-toggle" class="icon-button" type="button" aria-label="Turn sound off">🔊</button></div>
         </header>
         <section class="briefing"><div><span class="kicker">YOUR BRIEF</span><p id="mission-title">The clean beginner's job.</p></div><div class="steps"><span class="step active">01 Plan</span><span class="step">02 Execute</span><span class="step">03 Escape</span></div></section>
+        <section class="intel-bar"><div class="guard-intel"><span class="guard-pip"></span><div><span class="kicker">GUARD ROUTE</span><strong id="guard-status">LEG 1/4 · 0%</strong></div></div><div class="legend"><span><i class="legend-line patrol-line"></i> patrol path</span><span><i class="legend-line vision-line"></i> vision cone</span><span><i class="legend-dot player-line"></i> crew</span></div><p id="stealth-state" class="timing-tip">HIDDEN — move through the shadows.</p></section>
         <div class="game-frame">
           <div id="game" aria-label="Top-down heist game"></div>
-          <div class="help"><span class="help-key">DRAG</span> Draw one connected route <strong>SAFEHOUSE → BAG → EXIT</strong><span class="help-divider">·</span><span class="help-key">TIP</span> Stay out of the red cone</div>
+          <div class="help"><span class="help-key">WASD / ARROWS</span> Move the crew <strong>SAFEHOUSE → BAG → EXIT</strong><span class="help-divider">·</span><span class="help-key">TIP</span> Break the red cone's sightline</div>
           <div id="toast" class="toast" aria-live="polite"></div>
         </div>
         <footer class="controls">
           <div class="feedback"><span id="status-dot" class="status-dot"></span><p id="message">Trace a route from the safehouse through the bag to the exit.</p></div>
-          <div class="control-buttons"><button id="undo-button" class="tool-button" type="button">↶ Undo</button><button id="clear-button" class="tool-button" type="button">Clear</button><button id="run-button" type="button">▶ Run the plan</button><button id="retry-button" class="secondary" type="button">Change plan</button></div>
+          <div class="control-buttons"><button id="retry-button" class="secondary" type="button">Restart mission</button></div>
         </footer>
       </section>
+      <div id="touch-pad" class="touch-pad" aria-label="Touch movement control"><span></span></div>
     </main>
     <div id="result-overlay" class="result-overlay" hidden><div class="result-card"><div id="result-icon" class="result-icon">✦</div><p id="result-kicker" class="eyebrow">MISSION COMPLETE</p><h2 id="result-title">Clean getaway</h2><p id="result-copy">The crew is out before the city wakes up.</p><div class="result-actions"><button id="result-primary" type="button">Next mission</button><button id="result-secondary" class="secondary" type="button">Try again</button></div></div></div>
     <script type="module" src="/src/main.ts"></script>

@@ -1,6 +1,12 @@
 export type Point = { x: number; y: number };
 export type Rect = { x: number; y: number; width: number; height: number };
 export type Outcome = "playing" | "won" | "lost";
+export type PatrolState = {
+  segment: number;
+  progress: number;
+  position: Point;
+  heading: number;
+};
 export type PlanCheck = {
   valid: boolean;
   crossesWall: boolean;
@@ -15,13 +21,41 @@ export function distance(a: Point, b: Point): number {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
+export function pointInRect(point: Point, rect: Rect, clearance = 0): boolean {
+  return point.x >= rect.x - clearance &&
+    point.x <= rect.x + rect.width + clearance &&
+    point.y >= rect.y - clearance &&
+    point.y <= rect.y + rect.height + clearance;
+}
+
 export function routeCrossesWall(route: Point[], walls: Rect[]): boolean {
+  return routeSegmentCrossesWall(route, walls);
+}
+
+export function routeSegmentCrossesWall(route: Point[], walls: Rect[], clearance = 0): boolean {
   for (let index = 1; index < route.length; index += 1) {
-    const from = route[index - 1];
-    const to = route[index];
-    if (walls.some((wall) => segmentIntersectsRect(from, to, wall))) return true;
+    if (segmentCrossesWall(route[index - 1], route[index], walls, clearance)) return true;
   }
   return false;
+}
+
+export function segmentCrossesWall(from: Point, to: Point, walls: Rect[], clearance = 0): boolean {
+  return walls.some((wall) => segmentIntersectsRect(from, to, expandRect(wall, clearance)));
+}
+
+export function getPatrolState(timeMs: number, patrol: Point[], segmentDurationMs: number): PatrolState {
+  const safeDuration = Math.max(1, segmentDurationMs);
+  const tick = (Math.max(0, timeMs) % (safeDuration * patrol.length)) / safeDuration;
+  const segment = Math.floor(tick) % patrol.length;
+  const progress = tick - Math.floor(tick);
+  const from = patrol[segment];
+  const to = patrol[(segment + 1) % patrol.length];
+  return {
+    segment,
+    progress,
+    position: { x: from.x + (to.x - from.x) * progress, y: from.y + (to.y - from.y) * progress },
+    heading: Math.atan2(to.y - from.y, to.x - from.x)
+  };
 }
 
 export function routeVisitsPoint(route: Point[], target: Point, radius: number): boolean {
@@ -33,7 +67,7 @@ export function evaluatePlan(route: Point[], walls: Rect[], loot: Point, exit: P
 }
 
 export function validatePlan(route: Point[], walls: Rect[], loot: Point, exit: Point, proximity: number): PlanCheck {
-  const crossesWall = route.length > 1 && routeCrossesWall(route, walls);
+  const crossesWall = route.length > 1 && routeSegmentCrossesWall(route, walls, 11);
   const collectsLoot = routeVisitsPoint(route, loot, proximity);
   const reachesExit = routeVisitsPoint(route, exit, proximity);
   const valid = route.length > 1 && !crossesWall && collectsLoot && reachesExit;
@@ -59,6 +93,10 @@ function segmentIntersectsRect(from: Point, to: Point, rect: Rect): boolean {
     lineIntersects(from, to, { x: maxX, y: minY }, { x: maxX, y: maxY }) ||
     lineIntersects(from, to, { x: maxX, y: maxY }, { x: minX, y: maxY }) ||
     lineIntersects(from, to, { x: minX, y: maxY }, { x: minX, y: minY });
+}
+
+function expandRect(rect: Rect, amount: number): Rect {
+  return { x: rect.x - amount, y: rect.y - amount, width: rect.width + amount * 2, height: rect.height + amount * 2 };
 }
 
 function inside(point: Point, rect: Rect): boolean {
